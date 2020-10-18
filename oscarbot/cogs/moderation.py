@@ -6,8 +6,8 @@ class Moderation(commands.Cog):
         self.oscar = oscar
 
     @commands.command()
-    async def ban(self, user: reason=None):
-        await ctx.guild.ban(user, reason=reason)
+    async def ban(self, user, *, reason=None):
+        await ctx.guild.ban(user)
         await ctx.send(f"{user.mention} has been banned")
 
 def setup(oscar):
