@@ -14,16 +14,25 @@ async def on_ready():
     print("Ready")
 
 @oscar.command()
+@commands.is_owner()
 async def load(ctx, extension):
     oscar.load_extension(f'cogs.{extension}')
+    await ctx.send(f"{extension} loaded")
 
 @oscar.command()
+@commands.is_owner()
 async def unload(ctx, extension):
     oscar.unload_extension(f'cogs.{extension}')
+    await ctx.send(f"{extension} unloaded")
+
+@oscar.command()
+@commands.is_owner()
+async def reload(ctx, extension):
+    oscar.reload_extension(f'cogs.{extension}')
+    await ctx.send(f"{extension} reloaded")
 
 for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
         oscar.load_extension(f"cogs.{filename[:-3]}")
-
 
 oscar.run(token)
