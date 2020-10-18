@@ -1,4 +1,5 @@
 import discord
+from discord.ext import commands
 import dotenv
 from dotenv import load_dotenv
 import os
@@ -6,10 +7,6 @@ import os
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 
-oscar = discord.Client()
-
-@oscar.event
-async def on_ready():
-    print("Ready")
+oscar = commands.Bot(command_prefix='!')
 
 oscar.run(token)
