@@ -1,1 +1,1 @@
-worker: python oscarbot\main.py
+worker: python oscarbot/main.py
