@@ -1,8 +1,9 @@
 import discord
+import dotenv
 from dotenv import load_dotenv
 import os
 
-load_dotenv('.env')
+load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 
 oscar = discord.Client()
