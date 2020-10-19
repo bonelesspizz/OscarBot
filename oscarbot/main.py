@@ -31,7 +31,8 @@ async def reload(ctx, extension):
     oscar.reload_extension(f'cogs.{extension}')
     await ctx.send(f"Cog *{extension}* reloaded")
 
-for filename in os.listdir("./cogs"):
+
+for filename in os.listdir("."):
     if filename.endswith(".py"):
         oscar.load_extension(f"cogs.{filename[:-3]}")
 
