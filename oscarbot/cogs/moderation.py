@@ -18,8 +18,8 @@ class Moderation(commands.Cog):
         for ban in banned_users:
             user = ban.user
             if (member_name, member_discriminator) == (user.name, user.discriminator):
-            await ctx.guild.unban(user)
-            await ctx.send(f"{user.mention} has been unbanned.")
+                await ctx.guild.unban(user)
+                await ctx.send(f"{user.mention} has been unbanned.")
 
 def setup(oscar):
     oscar.add_cog(Moderation(oscar))
