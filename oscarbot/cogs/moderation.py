@@ -12,8 +12,8 @@ class Moderation(commands.Cog):
 
     @commands.command()
     async def unban(self, ctx, user:discord.User=None):
-        await user.unban(reason=reason)
-        await ctx.send(f"{member.mention} has been unbanned.")
+        await guild.unban(user)
+        await ctx.send(f"{user.mention} has been unbanned.")
 
 def setup(oscar):
     oscar.add_cog(Moderation(oscar))
