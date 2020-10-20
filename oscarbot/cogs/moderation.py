@@ -13,7 +13,8 @@ class Moderation(commands.Cog):
     @commands.command()
     async def unban(self, ctx, member):
         banned_users = await ctx.guild.bans()
-        member_name, member_discriminator = member.display_name.split('#')
+        member_name = str(member[:-5])
+        member_discriminator = str(member[-4:])
 
         for ban in banned_users:
             user = ban.user
