@@ -25,7 +25,7 @@ class Moderation(commands.Cog):
 
     @commands.command()
     async def mute(self, ctx, member:discord.Member=None, reason=None):
-        muted_role = get(member.guild.roles, name=MUTED)
+        muted_role = get(member.guild.roles, name="Muted")
         await member.add_roles(muted_role)
         await ctx.send(f"{member.mention} has been muted.")
 
