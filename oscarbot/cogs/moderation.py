@@ -6,9 +6,9 @@ class Moderation(commands.Cog):
         self.oscar = oscar
 
     @commands.command()
-    async def ban(self, ctx, user, *, reason=None):
-        await ctx.guild.ban(user)
-        await ctx.send(f"{user.mention} has been banned")
+    async def ban(self, ctx, user, reason):
+        await guild.ban(user,*,reason=reason, delete_message_days=0)
+        await ctx.send(f"{user.mention} has been banned.")
 
 def setup(oscar):
     oscar.add_cog(Moderation(oscar))
