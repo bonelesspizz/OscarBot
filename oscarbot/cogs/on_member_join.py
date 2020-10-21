@@ -7,7 +7,7 @@ class OnMemberJoin(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        channel = member.guild.system_channel
+        channel = guild.system_channel
         await channel.send(f"Welcome {member.mention} to the server!")
 
 def setup(oscar):
