@@ -21,7 +21,7 @@ async def on_ready():
     await oscar.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game("!help"))
 
 for filename in os.listdir('./oscarbot'):
-    if filename.endswith(".py") and filename != "utils.py":
+    if filename.endswith(".py") and filename != "utils.py" and filename != "wordlist.py":
         oscar.load_extension(f"oscarbot.{filename[:-3]}")
 
 def create_connection(db_file):
@@ -29,7 +29,11 @@ def create_connection(db_file):
         # Create database if it does not exist
         conn = sqlite3.connect(db_file)
         cursor = conn.cursor()
-        cursor.execute("""CREATE TABLE IF NOT EXISTS warns(member TEXT, reasons TEXT, total INTEGER)""")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS warns (
+                            member TEXT, 
+                            reasons TEXT, 
+                            total INTEGER
+                      )""")
     except Error as e:
         print(e)
     finally:
