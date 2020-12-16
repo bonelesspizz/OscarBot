@@ -4,5 +4,5 @@ A discord bot that does stuff
 Install packages from requirements.txt with:
 `pip install -r requirements.txt`
 
-Run oscarbot/main.py with:
+Run main.py with:
 `python3 main.py`
