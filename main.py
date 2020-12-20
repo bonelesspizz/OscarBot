@@ -9,9 +9,7 @@ from sqlite3 import Error
 load_dotenv() # Loads the key,value from .env
 token = os.getenv('DISCORD_TOKEN') # Sets the token variable to the value in .env
 
-intents = discord.Intents.default()
-intents.members = True # Enables the members intent to be used, which allows for on_member_join() and other member related functions
-intents.guilds = True
+intents = discord.Intents.all() # Enables all intents
 
 oscar = commands.Bot(command_prefix='!', intents=intents) # Sets the intents
 
