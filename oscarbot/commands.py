@@ -3,8 +3,7 @@ from discord.ext import commands
 import random
 from datetime import datetime
 import time
-from .utils import words
-
+from .wordlist import words
 
 class Commands(commands.Cog):
     def __init__(self, oscar):
@@ -94,6 +93,22 @@ class Commands(commands.Cog):
                         acc = (len(cont) / length) * 100
                         await ctx.send(f"{ctx.message.author.mention} {wpm}WPM, {int(acc)}% accuracy")
                         return
+
+    @commands.command()
+    async def userinfo(self, ctx, member:discord.Member=None):
+        if member is None:
+            member = ctx.message.author
+
+        embed = discord.Embed(title="Info for {0}".format(member), timestamp=datetime.now(), color=discord.Colour.darker_grey())
+        logo = discord.File("../Oscar Bot/logo.png", filename="logo.png")
+        embed.set_author(name="Userinfo", icon_url="attachment://logo.png")
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.add_field(name="Status", value="{0}".format(member.status), inline=False)
+        embed.add_field(name="Account created on", value="{0}\n({1} days ago)".format(member.created_at.strftime("%d-%m-%y at %H:%M"), (datetime.now() - member.created_at).days))
+        embed.add_field(name="Joined server on", value="{0}\n({1} days ago)".format(member.joined_at.strftime("%d-%m-%y at %H:%M"), (datetime.now() - member.joined_at).days))
+        embed.add_field(name="Roles", value="{0}".format(", ".join(role.mention for role in member.roles)), inline=False)
+        embed.set_footer(text=f'ID: {member.id}')
+        await ctx.send(file=logo, embed=embed)
 
 def setup(oscar):
     oscar.add_cog(Commands(oscar))
