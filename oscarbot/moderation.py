@@ -126,7 +126,7 @@ class Moderation(commands.Cog):
         reason = " ".join(reason)
         if not reason:
             reason = "no reason specified."
-
+ 
         conn = sqlite3.connect(os.path.realpath("../Oscar Bot/warnslist.db"))
         cursor = conn.cursor()
         n = cursor.execute("SELECT total FROM warns WHERE member = (?)", (str(member),)).fetchall()
