@@ -86,7 +86,7 @@ class Moderation(commands.Cog):
                     await vc.set_permissions(muted_role, connect=False)
 
             embed = discord.Embed(title=f"{member} muted", timestamp=datetime.now(), color=discord.Colour.darker_grey())
-            logo = discord.File("../Oscar Bot/logo.png", filename="logo.png")
+            logo = discord.File("/Oscar Bot/logo.png", filename="logo.png")
             embed.set_author(name="Mute", icon_url="attachment://logo.png")
             embed.add_field(name="Time", value=f"{time}")
             embed.add_field(name="Reason", value=f"{reason}")
