@@ -79,14 +79,18 @@ class Moderation(commands.Cog):
             muted_role = get(ctx.guild.roles, name="Muted")
             await member.add_roles(muted_role)
 
-            for guild in self.oscar.guilds:
-                for tc in guild.text_channels:
-                    await tc.set_permissions(muted_role, send_messages=False, add_reactions=False)
-                for vc in guild.voice_channels:
-                    await vc.set_permissions(muted_role, connect=False)
+            for tc in member.guild.text_channels:
+                perms = tc.overwrites_for(member)
+                perms.send_messages = False
+                perms.add_reactions = False
+                await tc.set_permissions(muted_role, overwrite=perms)
+            for vc in member.guild.voice_channels:
+                perms = vc.overwrites_for(member)
+                perms.connect = False
+                await vc.set_permissions(muted_role, overwrite=perms)
 
             embed = discord.Embed(title=f"{member} muted", timestamp=datetime.now(), color=discord.Colour.darker_grey())
-            logo = discord.File("/Oscar Bot/logo.png", filename="logo.png")
+            logo = discord.File("../Oscar Bot/logo.png", filename="logo.png")
             embed.set_author(name="Mute", icon_url="attachment://logo.png")
             embed.add_field(name="Time", value=f"{time}")
             embed.add_field(name="Reason", value=f"{reason}")
