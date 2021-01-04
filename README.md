@@ -1,7 +1,5 @@
 # OscarBot
-A discord bot that does stuff
-
-The bot runs on heroku, but can be run locally.
+A discord bot that is mainly for moderation but has other extra uses.
 
 Install packages from requirements.txt with:
 `pip install -r requirements.txt`
