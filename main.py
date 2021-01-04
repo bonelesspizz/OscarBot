@@ -9,9 +9,7 @@ from sqlite3 import Error
 load_dotenv() # Loads the key,value from .env
 token = os.getenv('DISCORD_TOKEN') # Sets the token variable to the value in .env
 
-intents = discord.Intents.all() # Enables all intents
-
-oscar = commands.Bot(command_prefix='!', intents=intents) # Sets the intents
+oscar = commands.Bot(command_prefix='!', intents=discord.Intents.all()) 
 
 @oscar.event
 async def on_ready():
