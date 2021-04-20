@@ -3,7 +3,8 @@ from discord.ext import commands
 import random
 from datetime import datetime
 import time
-from .wordlist import words
+import os
+import json
 
 class Commands(commands.Cog):
     def __init__(self, oscar):
@@ -78,7 +79,9 @@ class Commands(commands.Cog):
         
         user_id = ctx.message.author.id
 
-        text = " ".join([random.choice(words) for w in range(length)])
+        words = open("wordlist.txt","r").readlines()
+
+        text = " ".join([random.choice(words)] for n in range(length))
         await ctx.send(f"`{text}`") 
 
         now = datetime.now()
@@ -92,7 +95,7 @@ class Commands(commands.Cog):
                         wpm = int(round(len(cont)) / (elapsed_time/60))
                         acc = (len(cont) / length) * 100
                         await ctx.send(f"{ctx.message.author.mention} {wpm}WPM, {int(acc)}% accuracy")
-                        return
+                        return False
 
     @commands.command()
     async def userinfo(self, ctx, member:discord.Member=None):
@@ -108,6 +111,30 @@ class Commands(commands.Cog):
         embed.add_field(name="Joined server on", value="{0}\n({1} days ago)".format(member.joined_at.strftime("%d-%m-%y at %H:%M"), (datetime.now() - member.joined_at).days))
         embed.add_field(name="Roles", value="{0}".format(", ".join(role.mention for role in member.roles)), inline=False)
         embed.set_footer(text=f'ID: {member.id}')
+        await ctx.send(file=logo, embed=embed)
+
+    @commands.command()
+    @commands.is_owner()
+    @commands.guild_only()
+    async def setprefix(self, ctx, prefix):
+        f = open(os.path.realpath('../Oscar Bot/prefix.json'), "r+")
+        data = json.load(f)
+        data["prefix"] = prefix
+        f.seek(0)
+        json.dump(data,f,indent=4)
+        f.truncate()
+        f.close()
+        self.oscar.command_prefix = prefix
+        await ctx.send(f"Prefix changed to ``{prefix}``")
+
+    @commands.command()
+    async def help(self, ctx):
+        embed = discord.Embed(title="Bot commands", timestamp=datetime.now(), color=discord.Colour.darker_grey())
+        logo = discord.File("../Oscar Bot/logo.png", filename="logo.png")
+        embed.set_author(name="Help", icon_url="attachment://logo.png")
+        embed.add_field(name="Server Commands", value='load, unload, reload, setprefix', inline=False)
+        embed.add_field(name="Moderation", value='ban, unban, kick, mute, unmute, warn, clearwarns', inline=False)
+        embed.add_field(name="User Commands", value='8ball, userinfo, serverinfo, typingtest')
         await ctx.send(file=logo, embed=embed)
 
 def setup(oscar):
