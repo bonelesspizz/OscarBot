@@ -81,15 +81,15 @@ class Commands(commands.Cog):
 
         words = open("wordlist.txt","r").readlines()
 
-        text = " ".join([random.choice(words)] for n in range(length))
+        text = " ".join([random.choice(words).strip() for n in range(length)])
         await ctx.send(f"`{text}`") 
 
-        now = datetime.now()
-        elapsed_time = 0
+        elapsed_time = 0.0
+        start_time = datetime.utcnow()
         while True:
             time.sleep(1)
-            elapsed_time += 1
-            async for message in ctx.message.channel.history(after=now):
+            elapsed_time += 1.0
+            async for message in ctx.message.channel.history(after=start_time):
                 if message.author.id == user_id:
                         cont = (message.content).split(" ")
                         wpm = int(round(len(cont)) / (elapsed_time/60))
@@ -125,6 +125,7 @@ class Commands(commands.Cog):
         f.truncate()
         f.close()
         self.oscar.command_prefix = prefix
+        await self.oscar.change_presence(status=discord.Status.do_not_disturb,activity=discord.Game(f"{prefix}help"))
         await ctx.send(f"Prefix changed to ``{prefix}``")
 
     @commands.command()
@@ -134,7 +135,7 @@ class Commands(commands.Cog):
         embed.set_author(name="Help", icon_url="attachment://logo.png")
         embed.add_field(name="Server Commands", value='load, unload, reload, setprefix', inline=False)
         embed.add_field(name="Moderation", value='ban, unban, kick, mute, unmute, warn, clearwarns', inline=False)
-        embed.add_field(name="User Commands", value='8ball, userinfo, serverinfo, typingtest')
+        embed.add_field(name="User Commands", value='8ball, userinfo, typingtest')
         await ctx.send(file=logo, embed=embed)
 
 def setup(oscar):
