@@ -3,27 +3,28 @@ import time
 times = {'s':1, 'S':1, 'm':60, 'M':60, 'h':3600, 'H':3600, 'd':3600*24, 'D':3600*24, 'w':3600*24*7, 'W':3600*24*7}
 
 def separate(*args):
-    tr = " ".join(args[0])
-    tr = tr.split(" ")
-    if "-t" in tr:
-        t = int(tr[tr.index("-t")+1][:-1]) * times[tr[tr.index("-t")+1][-1]]
+    # Used in the mute command for seperating the time and reason if they are inputted
+    tr_string = " ".join(args[0])
+    tr_string = tr_string.split(" ")
+    if "-t" in tr_string:
+        time = int(tr_string[tr_string.index("-t")+1][:-1]) * times[tr_string[tr_string.index("-t")+1][-1]]
     
-    if "-t" not in tr:
-        t = "indefinitely."
+    if "-t" not in tr_string:
+        time = "indefinitely."
        
-    if "-r" in tr:
-        if "-t" in tr:
-            if tr.index("-r") < tr.index("-t"):
-                r = " ".join(tr[tr.index("-r")+1:tr.index("-t")])
+    if "-r" in tr_string:
+        if "-t" in tr_string:
+            if tr_string.index("-r") < tr_string.index("-t"):
+                reason = " ".join(tr_string[tr_string.index("-r")+1:tr_string.index("-t")])
             else:
-                r = " ".join(tr[tr.index("-r")+1:])
+                reason = " ".join(tr_string[tr_string.index("-r")+1:])
         else:
-            r = " ".join(tr[tr.index("-r")+1:])
+            reason = " ".join(tr_string[tr_string.index("-r")+1:])
 
-    if "-r" not in tr:
-        r = "no reason specified."
+    if "-r" not in tr_string:
+        reason = "no reason specified."
 
-    return t, r
+    return time, reason
 
 class Timer:
     elapsed_time = None
